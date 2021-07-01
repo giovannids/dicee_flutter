@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// dart:math: Mathematical constants and functions, plus a random number generator.
+import 'dart:math';
 
 void main() {
   runApp(MaterialApp(
@@ -13,12 +15,28 @@ void main() {
   ));
 }
 
-class DicePage extends StatelessWidget {
+// A widget that has mutable state.
+class DicePage extends StatefulWidget {
+  @override
+  _DicePageState createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber = 1;
+  int rightDiceNumber = 1;
+
+  changeDiceNumbers() {
+    // setState: Notify the framework that the internal state of this object has changed.
+    // Whenever you change the internal state of a State object, make the change in a function that you pass to setState:
+    setState(() {
+      // Asigna un número aleatorio (1-6) a leftDiceNumber y rightDiceNumber
+      leftDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Evitar usar "var" para declarar variables, usar en cambio tipos de variables específicos como "int, String, double, bool"
-    var leftDiceNumber = 1;
-
     return Center(
       child: Row(
         children: [
@@ -29,15 +47,15 @@ class DicePage extends StatelessWidget {
               child: Image.asset('images/dice$leftDiceNumber.png'),
               // onPressed: Called when the button is tapped or otherwise activated.
               onPressed: () {
-                print('Left button got pressed.');
+                changeDiceNumbers();
               },
             ),
           ),
           Expanded(
             child: TextButton(
-              child: Image.asset('images/dice1.png'),
+              child: Image.asset('images/dice$rightDiceNumber.png'),
               onPressed: () {
-                print('Right button got pressed.');
+                changeDiceNumbers();
               },
             ),
           )
@@ -49,8 +67,15 @@ class DicePage extends StatelessWidget {
 
 /*
 REFERENCIAS
+Flutter Documentation
 https://api.flutter.dev/flutter/widgets/Expanded-class.html
 https://api.flutter.dev/flutter/widgets/Image-class.html
+https://api.flutter.dev/flutter/material/material-library.html
 https://api.flutter.dev/flutter/widgets/Padding-class.html
+https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html
+https://api.flutter.dev/flutter/widgets/State/setState.html
 https://api.flutter.dev/flutter/material/TextButton-class.html
+
+Dart Documentation
+https://api.dart.dev/stable/2.2.0/dart-math/dart-math-library.html
  */
